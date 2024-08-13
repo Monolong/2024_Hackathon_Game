@@ -29,12 +29,9 @@ public class Station : ObjectPoolManager
     // 마우스가 오브젝트 위에 있고
     private void OnMouseOver()
     {
-        Debug.Log("올라온 상태");
-
         // 우클릭 시
         if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("우클릭 됨");
             // 다음 정류장 변경 모드로 진입한다.
             StartCoroutine(EnterSetNextStationMode(busId));
         }

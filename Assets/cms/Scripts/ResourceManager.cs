@@ -38,6 +38,7 @@ public class ResourceManager : MonoBehaviour
 
     public bool SpendMoney(int amount)
     {
+
         if (Money >= amount)
         {
             Money -= amount;

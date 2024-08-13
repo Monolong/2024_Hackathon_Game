@@ -29,8 +29,6 @@ public class BusRouteInfoButton : MonoBehaviour
             return;
         }
 
-        Debug.Log(BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busId"]);
-
         // 버스를 추가한다.
         garage.IncreaseBus(BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busId"]);
 
