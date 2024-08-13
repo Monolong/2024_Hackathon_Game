@@ -5,8 +5,8 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     // Time management variables
-    public int Hours { get; private set; } // Current hour (0~23)
-    public int Minutes { get; private set; } // Current minutes (0~59)
+    public int hour { get; private set; } // hour (0~23)
+    public int minute { get; private set; } // minute (0~59)
 
     [SerializeField] private int startHour = 0; // Starting hour
     [SerializeField] private int startMinute = 0; // Starting minute
@@ -17,8 +17,8 @@ public class TimeManager : MonoBehaviour
     void Awake()
     {
         // Initialize time
-        Hours = startHour;
-        Minutes = startMinute;
+        hour = startHour;
+        minute = startMinute;
     }
 
     void Update()
@@ -30,16 +30,16 @@ public class TimeManager : MonoBehaviour
         if (elapsedTime >= 60.0f)
         {
             elapsedTime -= 60.0f;
-            Minutes++;
+            minute++;
 
-            if (Minutes >= 60)
+            if (minute >= 60)
             {
-                Minutes = 0;
-                Hours++;
+                minute = 0;
+                hour++;
 
-                if (Hours >= 24)
+                if (hour >= 24)
                 {
-                    Hours = 0; // Reset to 0 hours after a full day
+                    hour = 0; // Reset to 0 hours after a full day
                 }
 
                 CheckForEvents(); // Check for time-based events
@@ -50,11 +50,11 @@ public class TimeManager : MonoBehaviour
     // Check for work start/end time events
     private void CheckForEvents()
     {
-        if (Hours >= 8 && Hours < 9)
+        if (hour >= 8 && hour < 9)
         {
             WorkStart();
         }
-        else if (Hours >= 18 && Hours < 19)
+        else if (hour >= 18 && hour < 19)
         {
             WorkEnd();
         }
