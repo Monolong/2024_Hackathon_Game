@@ -9,6 +9,7 @@ public class Citizen : MonoBehaviour
     public Node destinationNode;
     public int boardingTime = 0;
     public float happy = 0f;
+    public int busId = 0;
     private int startTime = 0;
     private int arriveTime = 0;
     private int totalTime = 0;
@@ -29,7 +30,7 @@ public class Citizen : MonoBehaviour
     void Update()
     {
         MoveToStation();
-        AddCitizenToStation(busId, this); //GetWaitBusId필요함
+        AddCitizenToStation(busId, this.gameObject); //GetWaitBusId필요함
         if(transform.position != destinationNode.transform.position)
         {
             GoDestinationNode();
