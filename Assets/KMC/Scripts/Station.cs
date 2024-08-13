@@ -7,8 +7,8 @@ public class Station : MonoBehaviour
     // 해당 정류장에 정차하는 버스 이름 (#삭제 예정)
     [SerializeField] private int busId;
     // 다음
-    [SerializeField] private Dictionary<int, Station> nextStation = new Dictionary<int, Station>();
-    [SerializeField] private Dictionary<int, Station> prevStation = new Dictionary<int, Station>();
+    public Dictionary<int, Station> nextStation = new Dictionary<int, Station>();
+    public Dictionary<int, Station> prevStation = new Dictionary<int, Station>();
     public bool isGarage = false;
 
     // 정류장에서 기다리는 시민 배열 (#GameObject -> Citizen 변경 예정)
