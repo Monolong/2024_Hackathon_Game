@@ -31,18 +31,28 @@ public class Citizen : MonoBehaviour
         if(startStation == null || destinationStation == null)
         {
             GoDestinationNode();
+            if (Vector3.Magnitude(transform.position - destinationNode.transform.position) < 20)
+            {
+                arriveTime = GetTime();
+                gameObject.SetActive(false);
+                CalcurateHappy();
+            }
         }
-        if (!pooFlag)
-            MoveToStation();
-        AddCitizenToStation(busId, this);
-        if(transform.position != destinationNode.transform.position && pooFlag)
+        else
         {
-            GoDestinationNode();
-        }
-        if (transform.position == destinationNode.transform.position)
-        {
-            arriveTime = GetTime();
-            CalcurateHappy();
+            if (!pooFlag)
+                MoveToStation();
+            AddCitizenToStation(busId, this);
+            if (transform.position != destinationNode.transform.position && pooFlag)
+            {
+                GoDestinationNode();
+            }
+            if (Vector3.Magnitude(transform.position - destinationNode.transform.position) < 20)
+            {
+                arriveTime = GetTime();
+                gameObject.SetActive(false);
+                CalcurateHappy();
+            }
         }
     }
 
