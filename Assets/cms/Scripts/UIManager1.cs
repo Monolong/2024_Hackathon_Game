@@ -31,7 +31,7 @@ public class UIManager1 : MonoBehaviour
     void UpdateUI()
     {
         // Update text with current time from TimeManager
-        timeText.text = ": " + timeManager.Hours.ToString("D2") + ":" + timeManager.Minutes.ToString("D2");
+        timeText.text = ": " + timeManager.hour.ToString("D2") + ":" + timeManager.minute.ToString("D2");
 
         // Update text with current money and satisfaction from ResourceManager
         moneyText.text = ": $" + resourceManager.Money.ToString();
