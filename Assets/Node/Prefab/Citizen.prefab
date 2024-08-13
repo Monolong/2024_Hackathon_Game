@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1535836280073548099}
   - component: {fileID: 7067442093326839213}
-  - component: {fileID: 3914220816938981241}
+  - component: {fileID: 6599161097460899137}
   m_Layer: 0
   m_Name: Citizen
   m_TagString: Untagged
@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 60, y: 60, z: 60}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 8f612f9de5fff2f418466772d9f629fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3914220816938981241
+--- !u!114 &6599161097460899137
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,8 +94,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6909622332033154786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3f7d592bf33f5b41a8d93fcd733fd25, type: 3}
+  m_Script: {fileID: 11500000, guid: d2878f2e5231c9a4aa0e43306aeb20aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destinationStation: {fileID: 0}
   destinationNode: {fileID: 0}
+  boardingTime: 0
+  happy: 0
+  busId: 0
