@@ -19,8 +19,10 @@ public class Bus : MonoBehaviour
     float moveFrame = 0.1f;
     float speed = 2f;
     float waitTimeOnStation = 1f;
-    public void InitStation(Station nextStation)
+
+    public void InitStation(int busId, Station nextStation)
     {
+        this.busId = busId;
         this.nextStation = nextStation;
     }
 
@@ -30,10 +32,9 @@ public class Bus : MonoBehaviour
         map = mapLoader.GetMap();
         mapOffset = mapLoader.GetMapOffset();
         pathFinder = new PathFinder.PathFinder(map, mapOffset);
-        StartCoroutine(MoveToStation());
     }
 
-    IEnumerator MoveToStation()
+    public IEnumerator MoveToStation()
     {
         PathFinder.Node startNode = new PathFinder.Node(true);
         PathFinder.Node endNode = new PathFinder.Node(true);
