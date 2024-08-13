@@ -50,6 +50,11 @@ public class Bus : MonoBehaviour
             deltaX = Mathf.Abs(deltaX);
             deltaY = Mathf.Abs(deltaY);
 
+            float angle = Mathf.Atan2( - deltaPosition.y,  - deltaPosition.x) * Mathf.Rad2Deg - Mathf.PI;
+            //Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+            //transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 800 * Time.deltaTime);
+            transform.rotation =  Quaternion.Euler(0, 0, angle);
+
             deltaPosition.Normalize();
 
             while (deltaX > 0 || deltaY > 0)
