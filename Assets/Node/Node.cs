@@ -36,7 +36,7 @@ public class Node : MonoBehaviour
             float rnd = Random.Range(0, 1.00f);
             if (rnd < produceCitizenProb)
             {
-                GameObject citizenObj = Instantiate(go);
+                GameObject citizenObj = Instantiate(go,transform.position,Quaternion.identity);
                 Citizen citizen = citizenObj.GetComponent<Citizen>();
                 citizen.destinationNode = GetDestinationNode();
             }
