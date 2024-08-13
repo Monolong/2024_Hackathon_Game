@@ -10,17 +10,18 @@ public class Citizen : MonoBehaviour
     public int boardingTime = 0;
     public float happy = 0f;
     public int busId = 0;
+    public Station startStation;
+    public Station destinationStation;
     private int startTime = 0;
     private int arriveTime = 0;
     private int totalTime = 0;
     private float movespeed = 5f;
-    private Station startStation;
-    private Station destinationStation;
     private ObjectPoolManager objPoolManager;
-    private Station station;
     private TimeManager timeManager;
     void Start()
     {
+        objPoolManager = GameObject.Find("ObjectPoolManager").GetComponent<ObjectPoolManager>();
+        timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         startTime = GetTime();
         FindStartStation();
         FindDestinationStation();
@@ -143,7 +144,7 @@ public class Citizen : MonoBehaviour
     {
         if(transform.position == startStation.transform.position)
         {
-            station.waitingCitizens[busId].Enqueue(citizen);
+            startStation.waitingCitizens[busId].Enqueue(citizen);
             objPoolManager.ReturnObject(citizen);
         }
     }

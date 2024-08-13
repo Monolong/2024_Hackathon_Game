@@ -18,6 +18,9 @@ public class UIManager2 : MonoBehaviour
     private float animationDuration = 0.5f; // Duration of the animation
     private CanvasGroup uiGroupCanvasGroup; // CanvasGroup for the UI panel
 
+    private Vector3 originalButtonLocalPosition; // Store the original local position of the station button
+    private Vector3 dragOffset; // Offset between button and cursor during drag
+
     private void Start()
     {
         // Initialize CanvasGroup for UI group
@@ -36,6 +39,9 @@ public class UIManager2 : MonoBehaviour
 
         // Initially place the UI group at the hidden position
         uiGroup.anchoredPosition = hiddenPosition;
+
+        // Store the original local position of the station button
+        originalButtonLocalPosition = stationButton.transform.localPosition;
 
         // Add drag events to the station button
         EventTrigger trigger = stationButton.gameObject.AddComponent<EventTrigger>();
@@ -81,12 +87,19 @@ public class UIManager2 : MonoBehaviour
     {
         // Make UI group transparent during drag
         uiGroupCanvasGroup.alpha = 0.5f;
+
+        // Calculate the offset between the cursor and the button's center
+        Vector3 cursorWorldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
+        cursorWorldPosition.z = 0f; // Ensure z-position is 0
+        dragOffset = stationButton.transform.position - cursorWorldPosition;
     }
 
     private void OnDrag(PointerEventData eventData)
     {
         // Update the button's position to follow the mouse during drag
-        stationButton.transform.position = eventData.position;
+        Vector3 cursorWorldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
+        cursorWorldPosition.z = 0f; // Ensure z-position is 0
+        stationButton.transform.position = cursorWorldPosition + dragOffset;
     }
 
     private void OnDrop(PointerEventData eventData)
@@ -105,8 +118,8 @@ public class UIManager2 : MonoBehaviour
         // Instantiate the station prefab at the cell center position
         Instantiate(stationPrefab, cellCenterWorldPosition, Quaternion.identity);
 
-        // Reset the button position
-        stationButton.transform.localPosition = Vector3.zero;
+        // Restore the button to its original local position
+        stationButton.transform.localPosition = originalButtonLocalPosition;
 
         // Restore UI group visibility
         uiGroupCanvasGroup.alpha = 1f;
