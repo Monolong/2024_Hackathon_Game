@@ -8,8 +8,6 @@ public class MapDebuger : MonoBehaviour
 
     [SerializeField] GameObject wall;
 
-
-
     void Start()
     {
         MapLoader mapLoader = GameObject.Find("BusPathManager").GetComponent<MapLoader>();
