@@ -13,6 +13,8 @@ public class BusRouteInfo : ObjectPoolManager
 
     RectTransform rectTransform;
 
+    public int busPrice = 5000;
+
     public static BusRouteInfo Instance { get; set; }
 
     private void Awake()
@@ -37,6 +39,7 @@ public class BusRouteInfo : ObjectPoolManager
         {
             { "busId", busId },
             { "busCount", busCount },
+            { "readyBusCount", busCount },
             { "busInterval", interval },
         });
 

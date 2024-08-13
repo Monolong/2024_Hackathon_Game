@@ -100,6 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a406c1e29e99cd34dbb97a7b70f10350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 0}
+  poolSize: 0
   busId: 0
   isGarage: 0
   arrow: {fileID: 0}
