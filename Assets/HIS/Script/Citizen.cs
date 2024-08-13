@@ -1,0 +1,134 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
+using static System.Collections.Specialized.BitVector32;
+
+public class Citizen : MonoBehaviour
+{
+    public Node DestinationNode;
+    private float movespeed = 5f;
+    private Station StartStation;
+    private Station DestinationStation;
+    private ObjectPoolManager objPoolManager;
+    private Station station;
+
+    void Start()
+    {
+        FindStartStation();
+        FindDestinationStation();
+        //StartCoroutine(WaitForBus());
+    }
+
+    void Update()
+    {
+        MoveToStation(StartStation.transform.position);
+    }
+
+    public void SetDestinationNode(Node RndNode)
+    {
+        DestinationNode = RndNode;
+    }
+
+    public void FindStartStation()
+    {
+        Vector3 playerPosition = transform.position;
+        GameObject[] allStations = GameObject.FindGameObjectsWithTag("Station");
+        Station closestStation = null;
+        float closestDistance = Mathf.Infinity;
+        foreach (GameObject stationObject in allStations)
+        {
+            Station station = stationObject.GetComponent<Station>();
+            if (station != null)
+            {
+                float distance = Vector3.Distance(playerPosition, station.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestStation = station;
+                }
+            }
+        }
+        StartStation = closestStation;
+    }
+
+    public void FindDestinationStation()
+    {
+        if (DestinationNode != null)
+        {
+            Vector3 DestinationPosition = DestinationNode.position;
+            GameObject[] allStations = GameObject.FindGameObjectsWithTag("Station");
+            Station closestStation = null;
+            float closestDistance = Mathf.Infinity;
+            foreach (GameObject stationObject in allStations)
+            {
+                Station station = stationObject.GetComponent<Station>();
+                if (station != null)
+                {
+                    float distance = Vector3.Distance(DestinationPosition, station.transform.position);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestStation = station;
+                    }
+                }
+            }
+            DestinationStation = closestStation;
+        }
+    }
+
+    /*private IEnumerator WaitForBus()
+    {
+        while (true)
+        {
+            if (StartStation != null && DestinationStation != null)
+            {
+                Bus bus = FindBus();
+                if (bus != null && bus.IsGoingTo(StartStation, DestinationStation))
+                {
+                    yield return new WaitUntil(() => Vector3.Distance(transform.position, StartStation.transform.position) < 1.0f);
+                    if (bus.IsAtStation(StartStation) && bus.IsGoingTo(DestinationStation))
+                    {
+                        boardBus(bus);
+                    }
+                }
+            }
+            yield return new WaitForSeconds(1.0f);
+        }
+    }
+
+    private Bus FindBus()
+    {
+        GameObject[] allBuses = GameObject.FindGameObjectsWithTag("Bus");
+        foreach (GameObject busObject in allBuses)
+        {
+            Bus bus = busObject.GetComponent<Bus>();
+            if (bus != null)
+            {
+                return bus;
+            }
+        }
+        return null;
+    }*/
+
+    private void MoveToStation(Vector3 destination)
+    {
+        Vector3 moveVector = transform.position - transform.position;
+        transform.position += moveVector.normalized * movespeed;
+    }
+
+    private void AddCitizenToStation(int busId, GameObject citizen)
+    {
+        if(transform.position == StartStation.position)
+        {
+            station.instance.waitingCitizens.Add(citizen);
+            objPoolManager.ReturnObject(citizen);
+        }
+    }
+
+    /*private void boardBus(Bus bus)
+    {
+       
+    }*/
+}
