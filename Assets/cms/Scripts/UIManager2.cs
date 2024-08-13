@@ -24,6 +24,20 @@ public class UIManager2 : MonoBehaviour
     public Transform stations;
     public int stationPrice = 1000;
 
+    public static UIManager2 Instance;
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            enabled = false;
+        }
+    }
+
     private void Start()
     {
         // Initialize CanvasGroup for UI group
@@ -67,6 +81,15 @@ public class UIManager2 : MonoBehaviour
         StopAllCoroutines(); // Stop any currently running coroutines
         StartCoroutine(AnimatePanel(isPanelVisible ? visiblePosition : hiddenPosition));
     }
+    public void OpenPanel()
+    {
+        StartCoroutine(AnimatePanel(visiblePosition));
+    }
+
+    public void ClosePanel()
+    {
+        StartCoroutine(AnimatePanel(hiddenPosition));
+    }
 
     private IEnumerator AnimatePanel(Vector2 targetPosition)
     {
@@ -85,6 +108,12 @@ public class UIManager2 : MonoBehaviour
 
     private void OnBeginDrag(PointerEventData eventData)
     {
+        // 수정 중이 아니면 종료한다.
+        if(BusRouteInfo.Instance.isEditing == false)
+        {
+            return;
+        }
+
         StartCoroutine(AnimatePanel(hiddenPosition));
 
         // Make UI group transparent during drag
@@ -108,7 +137,6 @@ public class UIManager2 : MonoBehaviour
     {
         if (ResourceManager.Instance.SpendMoney(stationPrice) == false)
         {
-            Debug.Log("If문 실행됨");
             return;
         }
 
@@ -126,7 +154,9 @@ public class UIManager2 : MonoBehaviour
         Vector3 cellCenterWorldPosition = roadTilemap.GetCellCenterWorld(cellPosition);
 
         // Instantiate the station prefab at the cell center position
-        Instantiate(stationPrefab, cellCenterWorldPosition, Quaternion.identity, stations);
+        GameObject obj = Instantiate(stationPrefab, cellCenterWorldPosition, Quaternion.identity, stations);
+        obj.GetComponent<Station>().busId = BusRouteInfo.Instance.selectedBusId;
+
 
         // Restore the button to its original local position
         stationButton.transform.localPosition = originalButtonLocalPosition;

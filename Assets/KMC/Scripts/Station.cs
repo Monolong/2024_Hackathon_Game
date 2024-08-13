@@ -5,7 +5,7 @@ using UnityEngine;
 public class Station : ObjectPoolManager
 {
     // 해당 정류장에 정차하는 버스 이름 (#삭제 예정)
-    [SerializeField] private int busId;
+    public int busId;
     // 다음
     public Dictionary<int, Station> nextStation = new Dictionary<int, Station>();
     public Dictionary<int, Station> prevStation = new Dictionary<int, Station>();
@@ -29,8 +29,8 @@ public class Station : ObjectPoolManager
     // 마우스가 오브젝트 위에 있고
     private void OnMouseOver()
     {
-        // 우클릭 시
-        if (Input.GetMouseButtonDown(1))
+        // 수정 중 우클릭 시, 현재 수정하는 번호와 스테이션 번호가 같다면
+        if (Input.GetMouseButtonDown(1) && BusRouteInfo.Instance.isEditing == true && busId == BusRouteInfo.Instance.selectedBusId)
         {
             // 다음 정류장 변경 모드로 진입한다.
             StartCoroutine(EnterSetNextStationMode(busId));
@@ -42,6 +42,8 @@ public class Station : ObjectPoolManager
     {
         // 화살표를 띄운다.
         arrow.SetActive(true);
+        // 인벤토리는 닫는다.
+        UIManager2.Instance.ClosePanel();
 
         // 다음 정류장에 넣을 객체
         Station selectedNextStation = null;
@@ -92,7 +94,6 @@ public class Station : ObjectPoolManager
     /// <param name="selectedStation">등록할 정류장</param>
     public void SetNextStation(int busId, Station selectedStation)
     {
-        Debug.Log("등록 성공");
         // 화살표를 끈다.
         arrow.SetActive(false);
 
