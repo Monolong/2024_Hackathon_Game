@@ -15,10 +15,10 @@ public class Station : MonoBehaviour
     public Dictionary<int, Queue<GameObject>> waitingCitizens = new Dictionary<int, Queue<GameObject>>();
 
     // 화살표 오브젝트
-    [SerializeField] private GameObject arrow;
+    [SerializeField] protected GameObject arrow;
     [SerializeField] public FixedStationArrow fixedArrow;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         arrow = transform.GetChild(0).gameObject;
         fixedArrow = transform.GetChild(1).GetComponent<FixedStationArrow>();

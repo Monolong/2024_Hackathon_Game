@@ -6,7 +6,7 @@ using UnityEngine;
 public class Bus : MonoBehaviour
 {
     [SerializeField] Station nextStation;
-    List<Citizen> citizens = new List<Citizen>();
+    //List<Citizen> citizens = new List<Citizen>();
     PathFinder.PathFinder pathFinder;
     MapLoader mapLoader;
     int[,] map;
@@ -50,6 +50,11 @@ public class Bus : MonoBehaviour
             deltaX = Mathf.Abs(deltaX);
             deltaY = Mathf.Abs(deltaY);
 
+            float angle = Mathf.Atan2( - deltaPosition.y,  - deltaPosition.x) * Mathf.Rad2Deg - Mathf.PI;
+            //Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+            //transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 800 * Time.deltaTime);
+            transform.rotation =  Quaternion.Euler(0, 0, angle);
+
             deltaPosition.Normalize();
 
             while (deltaX > 0 || deltaY > 0)
@@ -76,7 +81,7 @@ public class Bus : MonoBehaviour
     }
     private void DropCitizens()
     {
-        List<Citizen> citizensToDrop = new List<Citizen>();
+        /*List<Citizen> citizensToDrop = new List<Citizen>();
         foreach(Citizen citizen in citizens)
         {
             if (citizen.destinationStation.Equals(nextStation))
@@ -90,7 +95,7 @@ public class Bus : MonoBehaviour
             citizens.Remove(citizen);
             citizen.transform.position = transform.position;
             citizen.gameObject.SetActive(true);
-        }
+        }*/
     
     }
 
@@ -98,11 +103,11 @@ public class Bus : MonoBehaviour
     {
         try
         {
-            while (maxNumCitizen > numCitizen)
+            /*while (maxNumCitizen > numCitizen)
             {
                 Citizen citizen = nextStation.waitingCitizens[busId].Dequeue();
                 citizens.Add(citizen);
-            }
+            }*/
         } catch { }
     }
 }
