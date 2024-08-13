@@ -31,10 +31,10 @@ public class UIManager1 : MonoBehaviour
     void UpdateUI()
     {
         // Update text with current time from TimeManager
-        timeText.text = "시간: " + timeManager.Hours.ToString("D2") + ":" + timeManager.Minutes.ToString("D2");
+        timeText.text = ": " + timeManager.Hours.ToString("D2") + ":" + timeManager.Minutes.ToString("D2");
 
         // Update text with current money and satisfaction from ResourceManager
-        moneyText.text = "돈: $" + resourceManager.Money.ToString();
-        satisfactionText.text = "만족도: " + resourceManager.Satisfaction.ToString("F1") + "%";
+        moneyText.text = ": $" + resourceManager.Money.ToString();
+        satisfactionText.text = ": " + resourceManager.Satisfaction.ToString("F1") + "%";
     }
 }
