@@ -6,21 +6,21 @@ using static System.Collections.Specialized.BitVector32;
 
 public class Citizen : MonoBehaviour
 {
-    public Node DestinationNode;
-    public int BoardingTime = 0;
-    public float Happy = 0f;
-    private int StartTime = 0;
-    private int ArriveTime = 0;
-    private int TotalTime = 0;
+    public Node destinationNode;
+    public int boardingTime = 0;
+    public float happy = 0f;
+    private int startTime = 0;
+    private int arriveTime = 0;
+    private int totalTime = 0;
     private float movespeed = 5f;
-    private Station StartStation;
-    private Station DestinationStation;
+    private Station startStation;
+    private Station destinationStation;
     private ObjectPoolManager objPoolManager;
     private Station station;
     private TimeManager timeManager;
     void Start()
     {
-        StartTime = GetTime();
+        startTime = GetTime();
         FindStartStation();
         FindDestinationStation();
         //StartCoroutine(WaitForBus());
@@ -30,20 +30,20 @@ public class Citizen : MonoBehaviour
     {
         MoveToStation();
         AddCitizenToStation(busId, this); //GetWaitBusIdÇÊ¿äÇÔ
-        if(transform.position != DestinationNode.transform.position)
+        if(transform.position != destinationNode.transform.position)
         {
             GoDestinationNode();
         }
-        if (transform.position = DestinationNode.transform.position)
+        if (transform.position == destinationNode.transform.position)
         {
-            ArriveTime = GetTime();
+            arriveTime = GetTime();
             CalcurateHappy();
         }
     }
 
     public void SetDestinationNode(Node RndNode)
     {
-        DestinationNode = RndNode;
+        destinationNode = RndNode;
     }
 
     public void FindStartStation()
@@ -65,14 +65,14 @@ public class Citizen : MonoBehaviour
                 }
             }
         }
-        StartStation = closestStation;
+        startStation = closestStation;
     }
 
     public void FindDestinationStation()
     {
-        if (DestinationNode != null)
+        if (destinationNode != null)
         {
-            Vector3 DestinationPosition = DestinationNode.transform.position;
+            Vector3 DestinationPosition = destinationNode.transform.position;
             GameObject[] allStations = GameObject.FindGameObjectsWithTag("Station");
             Station closestStation = null;
             float closestDistance = Mathf.Infinity;
@@ -89,7 +89,7 @@ public class Citizen : MonoBehaviour
                     }
                 }
             }
-            DestinationStation = closestStation;
+            destinationStation = closestStation;
         }
     }
 
@@ -129,18 +129,18 @@ public class Citizen : MonoBehaviour
 
     private void MoveToStation()
     {
-        if (Vector3.Magnitude(StartStation.transform.position - transform.position) > Vector3.Magnitude(DestinationStation.transform.position - transform.position))
+        if (Vector3.Magnitude(startStation.transform.position - transform.position) > Vector3.Magnitude(destinationStation.transform.position - transform.position))
         {
-            Vector3 WalkVector = DestinationStation.transform.position - transform.position;
-            transform.position += WalkVector.normalized * movespeed * Time.deltaTime;
+            Vector3 walkVector = destinationStation.transform.position - transform.position;
+            transform.position += walkVector.normalized * movespeed * Time.deltaTime;
         }
-        Vector3 moveVector = StartStation.transform.position - transform.position;
+        Vector3 moveVector = startStation.transform.position - transform.position;
         transform.position += moveVector.normalized * movespeed * Time.deltaTime;
     }
 
     private void AddCitizenToStation(int busId, GameObject citizen)
     {
-        if(transform.position == StartStation.transform.position)
+        if(transform.position == startStation.transform.position)
         {
             station.waitingCitizens[busId].Enqueue(citizen);
             objPoolManager.ReturnObject(citizen);
@@ -149,8 +149,8 @@ public class Citizen : MonoBehaviour
 
     private void GoDestinationNode()
     {
-        Vector3 WalkVector = DestinationNode.transform.position - transform.position;
-        transform.position += WalkVector.normalized * movespeed * Time.deltaTime;
+        Vector3 walkVector = destinationNode.transform.position - transform.position;
+        transform.position += walkVector.normalized * movespeed * Time.deltaTime;
     }
 
     private int GetTime()
@@ -159,17 +159,17 @@ public class Citizen : MonoBehaviour
 
         return Time;
     }
-    private int CalcurateTotalTime(int Start, int Arrive)
+    private int CalcurateTotalTime(int start, int arrive)
     {
-        int Time = Arrive - Start;
+        int time = arrive - start;
 
-        return Time;
+        return time;
     }
 
     private void CalcurateHappy()
     {
-        TotalTime = CalcurateTotalTime(StartTime, ArriveTime);
-        Happy = 2 - ((TotalTime - BoardingTime) * 3 + (BoardingTime)) / (TotalTime * 2);
+        totalTime = CalcurateTotalTime(startTime, arriveTime);
+        happy = 2 - ((totalTime - boardingTime) * 3 + (boardingTime)) / (totalTime * 2);
     }
     /*private void boardBus(Bus bus)
     {
