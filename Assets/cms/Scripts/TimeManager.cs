@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening.Core.Easing;
 using UnityEngine;
 
 public class TimeManager : MonoBehaviour
@@ -14,8 +15,19 @@ public class TimeManager : MonoBehaviour
     private float elapsedTime = 0.0f; // Variable to store elapsed time
     private float timeScale = 60.0f;  // Set to advance 1 minute per second
 
+    private static TimeManager _instance;
+
+    public static TimeManager Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+
     void Awake()
     {
+        _instance = this;
         // Initialize time
         hour = startHour;
         minute = startMinute;
