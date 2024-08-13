@@ -26,6 +26,10 @@ public class Citizen : MonoBehaviour
 
     void Update()
     {
+        if(startStation == null || destinationStation == null)
+        {
+            GoDestinationNode();
+        }
         MoveToStation();
         AddCitizenToStation(busId, this.gameObject);
         if(transform.position != destinationNode.transform.position)
@@ -64,7 +68,7 @@ public class Citizen : MonoBehaviour
 
     private void AddCitizenToStation(int busId, GameObject citizen)
     {
-        if(transform.position == startStation.transform.position)
+        if((Vector3.Magnitude(transform.position - startStation.transform.position)) < 2)
         {
             startStation.waitingCitizens[busId].Enqueue(citizen);
             citizen.SetActive(false);
@@ -86,7 +90,10 @@ public class Citizen : MonoBehaviour
     private int CalcurateTotalTime(int start, int arrive)
     {
         int time = arrive - start;
-
+        if(start == arrive)
+        {
+            return 1;
+        }
         return time;
     }
 
