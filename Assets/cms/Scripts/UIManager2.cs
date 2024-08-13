@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 public class UIManager2 : MonoBehaviour
 {
     public RectTransform uiGroup; // Parent containing the UI panel and button
-    public Button toggleButton; // Toggle button
+    // public Button toggleButton; // Toggle button
     public Button stationButton; // Station button
     public GameObject stationPrefab; // Station prefab to spawn
     public Tilemap roadTilemap; // Reference to the Tilemap where the prefab should be placed
@@ -21,6 +21,9 @@ public class UIManager2 : MonoBehaviour
     private Vector3 originalButtonLocalPosition; // Store the original local position of the station button
     private Vector3 dragOffset; // Offset between button and cursor during drag
 
+    public Transform stations;
+    public int stationPrice = 1000;
+
     private void Start()
     {
         // Initialize CanvasGroup for UI group
@@ -29,9 +32,6 @@ public class UIManager2 : MonoBehaviour
         {
             uiGroupCanvasGroup = uiGroup.gameObject.AddComponent<CanvasGroup>();
         }
-
-        // Connect the button click event to the method
-        toggleButton.onClick.AddListener(TogglePanelVisibility);
 
         // Set initial positions
         hiddenPosition = new Vector2(uiGroup.anchoredPosition.x, -uiGroup.rect.height);
@@ -59,7 +59,7 @@ public class UIManager2 : MonoBehaviour
         trigger.triggers.Add(dropEntry);
     }
 
-    private void TogglePanelVisibility()
+    public void TogglePanelVisibility()
     {
         isPanelVisible = !isPanelVisible;
 
@@ -85,11 +85,13 @@ public class UIManager2 : MonoBehaviour
 
     private void OnBeginDrag(PointerEventData eventData)
     {
+        StartCoroutine(AnimatePanel(hiddenPosition));
+
         // Make UI group transparent during drag
         uiGroupCanvasGroup.alpha = 0.5f;
 
         // Calculate the offset between the cursor and the button's center
-        Vector3 cursorWorldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
+        Vector3 cursorWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         cursorWorldPosition.z = 0f; // Ensure z-position is 0
         dragOffset = stationButton.transform.position - cursorWorldPosition;
     }
@@ -97,15 +99,23 @@ public class UIManager2 : MonoBehaviour
     private void OnDrag(PointerEventData eventData)
     {
         // Update the button's position to follow the mouse during drag
-        Vector3 cursorWorldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
+        Vector3 cursorWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         cursorWorldPosition.z = 0f; // Ensure z-position is 0
         stationButton.transform.position = cursorWorldPosition + dragOffset;
     }
 
     private void OnDrop(PointerEventData eventData)
     {
+        if (ResourceManager.Instance.SpendMoney(stationPrice) == false)
+        {
+            Debug.Log("If¹® ½ÇÇàµÊ");
+            return;
+        }
+
+        StartCoroutine(AnimatePanel(visiblePosition));
+
         // Convert screen position to world position
-        Vector3 screenPos = eventData.position;
+        Vector3 screenPos = Input.mousePosition;
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
         worldPos.z = 0f; // Ensure the z-position is 0 to place the prefab on the correct plane
 
@@ -116,7 +126,7 @@ public class UIManager2 : MonoBehaviour
         Vector3 cellCenterWorldPosition = roadTilemap.GetCellCenterWorld(cellPosition);
 
         // Instantiate the station prefab at the cell center position
-        Instantiate(stationPrefab, cellCenterWorldPosition, Quaternion.identity);
+        Instantiate(stationPrefab, cellCenterWorldPosition, Quaternion.identity, stations);
 
         // Restore the button to its original local position
         stationButton.transform.localPosition = originalButtonLocalPosition;

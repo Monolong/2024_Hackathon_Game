@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Station : MonoBehaviour
+public class Station : ObjectPoolManager
 {
     // 해당 정류장에 정차하는 버스 이름 (#삭제 예정)
     [SerializeField] private int busId;
@@ -29,12 +29,9 @@ public class Station : MonoBehaviour
     // 마우스가 오브젝트 위에 있고
     private void OnMouseOver()
     {
-        Debug.Log("올라온 상태");
-
         // 우클릭 시
         if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("우클릭 됨");
             // 다음 정류장 변경 모드로 진입한다.
             StartCoroutine(EnterSetNextStationMode(busId));
         }
@@ -60,6 +57,14 @@ public class Station : MonoBehaviour
 
             // 제어권 반환
             yield return null;
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                // 우클릭 누르면 취소
+                arrow.SetActive(false);
+
+                yield break;
+            }
         }
 
         // 성공했을 시 다음 정류장을 등록한다.

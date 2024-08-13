@@ -9,58 +9,58 @@ public class BusRouteInfoButton : MonoBehaviour
     public TMP_Text busCountText;
     public TMP_InputField busIntervalComponent;
 
+    [SerializeField] private Garage garage;
+
     private void Awake()
     {
         busIdComponent = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         busCountText = transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>();
         busIntervalComponent = transform.GetChild(2).GetComponent<TMP_InputField>();
+
+        garage = FindObjectOfType<Garage>();
     }
 
     public void PlusBusCount()
     {
-        if (BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busCount"] < 3)
+        // 골드를 사용한다.
+        if (ResourceManager.Instance.SpendMoney(BusRouteInfo.Instance.busPrice) == false)
         {
-            // 골드를 사용한다.
-
-            // 버스를 늘린다.
-            BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busCount"] += 1;
-
-            // 텍스트를 갱신한다.
-            busCountText.text = BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busCount"].ToString();
-
-            // 차고지의 버스를 늘린다.
+            // 실패 시 취소
+            return;
         }
+
+        // 버스를 추가한다.
+        garage.IncreaseBus(BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busId"]);
+
+        // 텍스트를 갱신한다.
+        busCountText.text = BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busCount"].ToString();
     }
 
     public void MinusBusCount()
     {
-        if (BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busCount"] > 0)
+        // 버스가 없거나 운행 중이라면 취소한다.
+        if (garage.DecreaseBus(BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busId"]) == false)
         {
-            // 골드를 받는다.
-            // 골드가 모자라면 취소한다.
+            Debug.LogError("운행 중인 버스가 있거나 버스가 없습니다.");
 
-            // 버스를 늘린다.
-            BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busCount"] -= 1;
-
-            // 텍스트를 갱신한다.
-            busCountText.text = BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busCount"].ToString();
-
-            // 차고지의 버스를 줄인다.
+            return;
         }
+
+        // 골드를 받는다.
+        ResourceManager.Instance.EarnMoney(BusRouteInfo.Instance.busPrice);
+
+        // 텍스트를 갱신한다.
+        busCountText.text = BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busCount"].ToString();
     }
 
     public void ChangeBusInterval()
     {
         BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busInterval"] = int.Parse(busIntervalComponent.text);
-
-        Debug.Log(BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busInterval"] + "로 배차 시간 변경");
     }
 
     public void UpdateUI()
     {
         busIdComponent.text = BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busId"].ToString();
-
-        Debug.Log(buttonIndex + ", " + BusRouteInfo.Instance.busRouteInfo.Count + ", " + BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busId"]);
 
         busCountText.text = BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busCount"].ToString();
         busIntervalComponent.text = BusRouteInfo.Instance.busRouteInfo[buttonIndex]["busInterval"].ToString();
