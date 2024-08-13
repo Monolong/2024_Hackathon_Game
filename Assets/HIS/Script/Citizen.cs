@@ -48,7 +48,7 @@ public class Citizen : MonoBehaviour
     {
         RouteFinder routeFinder = new RouteFinder();
         routeFinder.InitRouteFinder(this);
-        routeFinder.FindRoute();
+        routeFinder.FindRoute(transform.position, destinationNode.transform.position);
     }
 
     private void MoveToStation()
