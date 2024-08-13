@@ -7,14 +7,20 @@ using static System.Collections.Specialized.BitVector32;
 public class Citizen : MonoBehaviour
 {
     public Node DestinationNode;
+    public int BoardingTime = 0;
+    public float Happy = 0f;
+    private int StartTime = 0;
+    private int ArriveTime = 0;
+    private int TotalTime = 0;
     private float movespeed = 5f;
     private Station StartStation;
     private Station DestinationStation;
     private ObjectPoolManager objPoolManager;
     private Station station;
-
+    private TimeManager timeManager;
     void Start()
     {
+        StartTime = GetTime();
         FindStartStation();
         FindDestinationStation();
         //StartCoroutine(WaitForBus());
@@ -27,6 +33,11 @@ public class Citizen : MonoBehaviour
         if(transform.position != DestinationNode.transform.position)
         {
             GoDestinationNode();
+        }
+        if (transform.position = DestinationNode.transform.position)
+        {
+            ArriveTime = GetTime();
+            CalcurateHappy();
         }
     }
 
@@ -142,6 +153,24 @@ public class Citizen : MonoBehaviour
         transform.position += WalkVector.normalized * movespeed * Time.deltaTime;
     }
 
+    private int GetTime()
+    {
+        int Time = timeManager.hour * 60 + timeManager.minute;
+
+        return Time;
+    }
+    private int CalcurateTotalTime(int Start, int Arrive)
+    {
+        int Time = Arrive - Start;
+
+        return Time;
+    }
+
+    private void CalcurateHappy()
+    {
+        TotalTime = CalcurateTotalTime(StartTime, ArriveTime);
+        Happy = 2 - ((TotalTime - BoardingTime) * 3 + (BoardingTime)) / (TotalTime * 2);
+    }
     /*private void boardBus(Bus bus)
     {
        
