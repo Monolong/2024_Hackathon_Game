@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -8,23 +9,34 @@ public class Garage : Station
     #region 변수
     // {버스, 배차 간격} 딕셔너리
     private Dictionary<int, int> busInterval = new Dictionary<int, int>();
+
+    public int currentBusIndex = 100;
     #endregion 변수
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         isGarage = true;
     }
 
     private void OnMouseOver()
     {
-        // 마우스 작업도 막는다.
+        // 좌클릭 시
+        if (Input.GetMouseButtonDown(0))
+        {
+            // 패널을 연다.
+            BusRouteInfo.Instance.OpenBusRouteInfoPanel();
+        }
     }
 
     // 새 버스를 생성한다.
     public void CreateNewBus()
     {
         // 버스 경로 매니저에 새 버스 정보를 추가한다.
-        // 자기 자신을 출발 차고지로 설정한다.
+        BusRouteInfo.Instance.AddBusRoute(currentBusIndex, this, 1, 10);
+
+        ++currentBusIndex;
     }
 
     // 정류장을 삭제한다.

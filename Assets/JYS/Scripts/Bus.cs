@@ -6,7 +6,7 @@ using UnityEngine;
 public class Bus : MonoBehaviour
 {
     [SerializeField] Station nextStation;
-    List<Citizen> citizens = new List<Citizen>();
+    //List<Citizen> citizens = new List<Citizen>();
     PathFinder.PathFinder pathFinder;
     MapLoader mapLoader;
     int[,] map;
@@ -76,7 +76,7 @@ public class Bus : MonoBehaviour
     }
     private void DropCitizens()
     {
-        List<Citizen> citizensToDrop = new List<Citizen>();
+        /*List<Citizen> citizensToDrop = new List<Citizen>();
         foreach(Citizen citizen in citizens)
         {
             if (citizen.destinationStation.Equals(nextStation))
@@ -90,7 +90,7 @@ public class Bus : MonoBehaviour
             citizens.Remove(citizen);
             citizen.transform.position = transform.position;
             citizen.gameObject.SetActive(true);
-        }
+        }*/
     
     }
 
@@ -98,11 +98,11 @@ public class Bus : MonoBehaviour
     {
         try
         {
-            while (maxNumCitizen > numCitizen)
+            /*while (maxNumCitizen > numCitizen)
             {
                 Citizen citizen = nextStation.waitingCitizens[busId].Dequeue();
                 citizens.Add(citizen);
-            }
+            }*/
         } catch { }
     }
 }
