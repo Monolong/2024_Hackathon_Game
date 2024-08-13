@@ -24,17 +24,15 @@ public class ResourceManager : MonoBehaviour
         AddMoney(amount);
     }
 
-    // Use money
-    public bool UseMoney(int amount)
+    private bool SpendMoney(int amount)
     {
-        if (SpendMoney(amount))
+        if (Money >= amount)
         {
-            Debug.Log("Spent money: " + amount + ", Remaining money: " + Money);
+            Money -= amount;
             return true;
         }
         else
         {
-            Debug.LogWarning("Not enough money to spend.");
             return false;
         }
     }
@@ -57,18 +55,6 @@ public class ResourceManager : MonoBehaviour
         Money += amount;
     }
 
-    private bool SpendMoney(int amount)
-    {
-        if (Money >= amount)
-        {
-            Money -= amount;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
     // Change satisfaction
     private void ChangeSatisfaction(float amount)
