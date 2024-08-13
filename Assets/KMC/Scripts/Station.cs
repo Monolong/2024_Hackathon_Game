@@ -46,8 +46,6 @@ public class Station : MonoBehaviour
         // 화살표를 띄운다.
         arrow.SetActive(true);
 
-        // 화살표가 마우스를 따라다닌다. -> 화살표 스크립트로 이동
-
         // 다음 정류장에 넣을 객체
         Station selectedNextStation = null;
 
@@ -72,7 +70,7 @@ public class Station : MonoBehaviour
     public Station GetClickedStation()
     {
         Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero, 0, LayerMask.GetMask("Station"));
 
         if (hit.collider == null)
         {
