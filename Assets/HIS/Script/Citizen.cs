@@ -23,7 +23,12 @@ public class Citizen : MonoBehaviour
 
     void Update()
     {
-        MoveToStation(StartStation.transform.position);
+        MoveToStation();
+        AddCitizenToStation(busId, this); //GetWaitBusIdÇÊ¿äÇÔ
+        if(transform.position != DestinationNode.transform.position)
+        {
+            GoDestinationNode();
+        }
     }
 
     public void SetDestinationNode(Node RndNode)
@@ -57,7 +62,7 @@ public class Citizen : MonoBehaviour
     {
         if (DestinationNode != null)
         {
-            Vector3 DestinationPosition = DestinationNode.position;
+            Vector3 DestinationPosition = DestinationNode.transform.position;
             GameObject[] allStations = GameObject.FindGameObjectsWithTag("Station");
             Station closestStation = null;
             float closestDistance = Mathf.Infinity;
@@ -112,19 +117,30 @@ public class Citizen : MonoBehaviour
         return null;
     }*/
 
-    private void MoveToStation(Vector3 destination)
+    private void MoveToStation()
     {
-        Vector3 moveVector = transform.position - transform.position;
+        if (Vector3.Magnitude(StartStation.transform.position - transform.position) > Vector3.Magnitude(DestinationStation.transform.position - transform.position))
+        {
+            Vector3 WalkVector = DestinationStation.transform.position - transform.position;
+            transform.position += WalkVector.normalized * movespeed;
+        }
+        Vector3 moveVector = StartStation.transform.position - transform.position;
         transform.position += moveVector.normalized * movespeed;
     }
 
     private void AddCitizenToStation(int busId, GameObject citizen)
     {
-        if(transform.position == StartStation.position)
+        if(transform.position == StartStation.transform.position)
         {
-            station.instance.waitingCitizens.Add(citizen);
+            station.waitingCitizens[busId].Enqueue(citizen);
             objPoolManager.ReturnObject(citizen);
         }
+    }
+
+    private void GoDestinationNode()
+    {
+        Vector3 WalkVector = DestinationStation.transform.position - transform.position;
+        transform.position += WalkVector.normalized * movespeed;
     }
 
     /*private void boardBus(Bus bus)
