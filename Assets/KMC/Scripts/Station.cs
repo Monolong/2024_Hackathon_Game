@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Station : MonoBehaviour
 {
-    // ÇØ´ç Á¤·ùÀå¿¡ Á¤Â÷ÇÏ´Â ¹ö½º ÀÌ¸§ (#»èÁ¦ ¿¹Á¤)
+    // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ (#ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
     [SerializeField] private int busId;
-    // ´ÙÀ½
+    // ï¿½ï¿½ï¿½ï¿½
     public Dictionary<int, Station> nextStation = new Dictionary<int, Station>();
     public Dictionary<int, Station> prevStation = new Dictionary<int, Station>();
     public bool isGarage = false;
 
-    // Á¤·ùÀå¿¡¼­ ±â´Ù¸®´Â ½Ã¹Î ¹è¿­ (#GameObject -> Citizen º¯°æ ¿¹Á¤)
-    public Dictionary<int, Queue<GameObject>> waitingCitizens = new Dictionary<int, Queue<GameObject>>();
+    // ï¿½ï¿½ï¿½ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½Ã¹ï¿½ ï¿½è¿­ (#GameObject -> Citizen ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    public Dictionary<int, Queue<Citizen>> waitingCitizens = new Dictionary<int, Queue<Citizen>>();
 
-    // È­»ìÇ¥ ¿ÀºêÁ§Æ®
+    // È­ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     [SerializeField] protected GameObject arrow;
     [SerializeField] public FixedStationArrow fixedArrow;
 
@@ -26,47 +26,47 @@ public class Station : MonoBehaviour
         arrow.SetActive(false);
     }
 
-    // ¸¶¿ì½º°¡ ¿ÀºêÁ§Æ® À§¿¡ ÀÖ°í
+    // ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½
     private void OnMouseOver()
     {
-        Debug.Log("¿Ã¶ó¿Â »óÅÂ");
+        Debug.Log("ï¿½Ã¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 
-        // ¿ìÅ¬¸¯ ½Ã
+        // ï¿½ï¿½Å¬ï¿½ï¿½ ï¿½ï¿½
         if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("¿ìÅ¬¸¯ µÊ");
-            // ´ÙÀ½ Á¤·ùÀå º¯°æ ¸ðµå·Î ÁøÀÔÇÑ´Ù.
+            Debug.Log("ï¿½ï¿½Å¬ï¿½ï¿½ ï¿½ï¿½");
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
             StartCoroutine(EnterSetNextStationMode(busId));
         }
     }
 
-    // Á¤·ùÀå º¯°æ »óÅÂ·Î ÁøÀÔÇÑ´Ù.
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
     public IEnumerator EnterSetNextStationMode(int busId)
     {
-        // È­»ìÇ¥¸¦ ¶ç¿î´Ù.
+        // È­ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
         arrow.SetActive(true);
 
-        // ´ÙÀ½ Á¤·ùÀå¿¡ ³ÖÀ» °´Ã¼
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼
         Station selectedNextStation = null;
 
-        // Å¬¸¯µÉ ¶§±îÁö ±â´Ù¸°´Ù.
+        // Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½.
         while (selectedNextStation == null)
         {
-            // ÁÂÅ¬¸¯ ½Ã ÇØ´ç Å¸ÀÏ·Î º¯°æÇÑ´Ù.
+            // ï¿½ï¿½Å¬ï¿½ï¿½ ï¿½ï¿½ ï¿½Ø´ï¿½ Å¸ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
             if (Input.GetMouseButtonDown(0))
             {
                 selectedNextStation =  GetClickedStation();
             }
 
-            // Á¦¾î±Ç ¹ÝÈ¯
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
             yield return null;
         }
 
-        // ¼º°øÇßÀ» ½Ã ´ÙÀ½ Á¤·ùÀåÀ» µî·ÏÇÑ´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
         SetNextStation(busId, selectedNextStation);
     }
 
-    // Å¬¸¯µÈ Á¤·ùÀåÀ» ¹ÝÈ¯ÇÑ´Ù. ¾øÀ» ½Ã nullÀ» ¹ÝÈ¯ÇÑ´Ù.
+    // Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ nullï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
     public Station GetClickedStation()
     {
         Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -81,67 +81,67 @@ public class Station : MonoBehaviour
     }
 
     /// <summary>
-    /// ´ÙÀ½ Á¤·ùÀåÀ» º¯°æÇÑ´Ù.
+    /// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
     /// </summary>
-    /// <param name="busId">º¯°æÇÒ ³ë¼± Á¤º¸</param>
-    /// <param name="selectedStation">µî·ÏÇÒ Á¤·ùÀå</param>
+    /// <param name="busId">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ë¼± ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="selectedStation">ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
     public void SetNextStation(int busId, Station selectedStation)
     {
-        Debug.Log("µî·Ï ¼º°ø");
-        // È­»ìÇ¥¸¦ ²ö´Ù.
+        Debug.Log("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+        // È­ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
         arrow.SetActive(false);
 
-        // ÇØ´ç Á¤·ùÀåÀ» µî·ÏÇÑ´Ù.
+        // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
         nextStation[busId] = selectedStation;
-        // ´ÙÀ½ Á¤·ùÀå¿¡µµ ÀÚ±â ÀÚ½ÅÀ» µî·ÏÇÑ´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½å¿¡ï¿½ï¿½ ï¿½Ú±ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
         selectedStation.prevStation[busId] = this;
 
-        // ¿¬°áµÈ ³ë¼±À» Ç¥½ÃÇÑ´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ë¼±ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ñ´ï¿½.
         fixedArrow.DrawArrow(transform.position, selectedStation.transform.position);
     }
 
     /// <summary>
-    /// ´ÙÀ½ Á¤·ùÀåÀ¸·Î ÀÌµ¿ÇÑ´Ù.
+    /// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ñ´ï¿½.
     /// </summary>
-    /// <param name="busId">¹ö½º Id</param>
-    /// <returns>ÇØ´ç ¹ö½º°¡ ÀÌµ¿ÇÒ ´ÙÀ½ Á¤·ùÀå</returns>
+    /// <param name="busId">ï¿½ï¿½ï¿½ï¿½ Id</param>
+    /// <returns>ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</returns>
     public Station GetNextStation(int busId)
     {
         return nextStation[busId];
     }
 
-    // ¹èÄ¡ ¹× »èÁ¦ÇÑ´Ù.
-    // Á¤·ùÀåÀ» ¹èÄ¡ÇÑ´Ù.
+    // ï¿½ï¿½Ä¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ñ´ï¿½.
     public void PlaceStation()
     {
 
     }
 
-    // Á¤·ùÀåÀ» »èÁ¦ÇÑ´Ù.
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
     public void RemoveStation(int busId)
     {
         Station prev = prevStation[busId];
         Station next = nextStation[busId];
 
-        // ÀÌÀü Á¤·ùÀå°ú ´ÙÀ½ Á¤·ùÀåÀ» ÀÕ´Â´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ´Â´ï¿½.
         prev.nextStation[busId] = next;
         prev.fixedArrow.DrawArrow(prev.transform.position, next.transform.position);
 
-        // ¸ðµç ³ë¼± »èÁ¦ ½Ã ÀÚ±â ÀÚ½ÅÀ» »èÁ¦ÇÑ´Ù. (#Ç®¸µ Àû¿ë ¿¹Á¤)
+        // ï¿½ï¿½ï¿½ ï¿½ë¼± ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ú±ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. (#Ç®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
         // Destroy(gameObject);
         gameObject.SetActive(false);
     }
 
     /// <summary>
-    /// ½Ã¹ÎÀ» Á¤·ùÀå¿¡ µî·ÏÇÑ´Ù. (#GameObject -> Citizen º¯°æ ¿¹Á¤)
+    /// ï¿½Ã¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. (#GameObject -> Citizen ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
     /// </summary>
-    /// <param name="busId">½Ã¹ÎÀÌ ±â´Ù¸®´Â ¹ö½º Id</param>
-    /// <param name="citizen">Å¥¿¡ µî·ÏÇÒ ½Ã¹Î °´Ã¼</param>
-    public void AddCitizenToStation(int busId, GameObject citizen)
+    /// <param name="busId">ï¿½Ã¹ï¿½ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Id</param>
+    /// <param name="citizen">Å¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¹ï¿½ ï¿½ï¿½Ã¼</param>
+    public void AddCitizenToStation(int busId, Citizen citizen)
     {
         waitingCitizens[busId].Enqueue(citizen);
     }
 
-    // #Ãß°¡ ÀÛ¾÷ (°¡´É ½Ã)
-    // ³ë¼±ÀÌ ¿¬°áµÇÁö ¾ÊÀ¸¸é ¸ðµç Á¤·ùÀå°ú È­»ìÇ¥¸¦ »¡°²°Ô Ç¥½ÃÇÑ´Ù.
+    // #ï¿½ß°ï¿½ ï¿½Û¾ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+    // ï¿½ë¼±ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ñ´ï¿½.
 }

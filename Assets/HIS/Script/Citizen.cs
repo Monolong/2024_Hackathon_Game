@@ -31,7 +31,7 @@ public class Citizen : MonoBehaviour
     void Update()
     {
         MoveToStation();
-        AddCitizenToStation(busId, this.gameObject); //GetWaitBusIdÇÊ¿äÇÔ
+        AddCitizenToStation(busId, this); //GetWaitBusIdï¿½Ê¿ï¿½ï¿½ï¿½
         if(transform.position != destinationNode.transform.position)
         {
             GoDestinationNode();
@@ -140,12 +140,12 @@ public class Citizen : MonoBehaviour
         transform.position += moveVector.normalized * movespeed * Time.deltaTime;
     }
 
-    private void AddCitizenToStation(int busId, GameObject citizen)
+    private void AddCitizenToStation(int busId, Citizen citizen)
     {
         if(transform.position == startStation.transform.position)
         {
             startStation.waitingCitizens[busId].Enqueue(citizen);
-            objPoolManager.ReturnObject(citizen);
+            objPoolManager.ReturnObject(citizen.gameObject);
         }
     }
 
