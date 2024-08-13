@@ -146,6 +146,9 @@ namespace PathFinder
                     if (x == 0 && y == 0)
                     {
                         continue;
+                    } else if ((x == 0) == (y == 0))
+                    {
+                        continue;
                     }
 
                     int checkX = node.X + x;
