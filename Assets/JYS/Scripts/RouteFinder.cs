@@ -69,6 +69,7 @@ public class RouteFinder : MonoBehaviour
                 {
                     if (minStartDistanceStation != null && minEndDistanceStation != null)
                     {
+                        citizen.busId = busId;
                         globalMinEndDistance = minEndDistance;
                         globalMinStartDistance = minStartDistance;
                         citizen.startStation = minStartDistanceStation;

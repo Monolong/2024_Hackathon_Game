@@ -17,6 +17,8 @@ public class Citizen : MonoBehaviour
     private int totalTime = 0;
     private float movespeed = 5f;
     private TimeManager timeManager;
+
+    public bool pooFlag = false;
     void Start()
     {
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
@@ -30,9 +32,10 @@ public class Citizen : MonoBehaviour
         {
             GoDestinationNode();
         }
-        MoveToStation();
-        AddCitizenToStation(busId, this.gameObject);
-        if(transform.position != destinationNode.transform.position)
+        if (!pooFlag)
+            MoveToStation();
+        AddCitizenToStation(busId, this);
+        if(transform.position != destinationNode.transform.position && pooFlag)
         {
             GoDestinationNode();
         }
@@ -66,12 +69,23 @@ public class Citizen : MonoBehaviour
         transform.position += moveVector.normalized * movespeed * Time.deltaTime;
     }
 
-    private void AddCitizenToStation(int busId, GameObject citizen)
+    private void AddCitizenToStation(int busId, Citizen citizen)
     {
-        if((Vector3.Magnitude(transform.position - startStation.transform.position)) < 2)
+        if((Vector3.Magnitude(transform.position - startStation.transform.position)) < 20)
         {
-            startStation.waitingCitizens[busId].Enqueue(citizen);
-            citizen.SetActive(false);
+            try
+            {
+                startStation.waitingCitizens[busId]
+                .Enqueue(citizen);
+            } catch
+            {
+                startStation.waitingCitizens[busId] = new Queue<Citizen>();
+                startStation.waitingCitizens[busId].Enqueue(citizen);
+            }
+            startStation.waitingCitizens[busId]
+.Enqueue(citizen);
+
+            citizen.gameObject.SetActive(false);
         }
     }
 

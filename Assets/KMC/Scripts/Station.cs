@@ -12,7 +12,7 @@ public class Station : ObjectPoolManager
     public bool isGarage = false;
 
     // 정류장에서 기다리는 시민 배열 (#GameObject -> Citizen 변경 예정)
-    public Dictionary<int, Queue<GameObject>> waitingCitizens = new Dictionary<int, Queue<GameObject>>();
+    public Dictionary<int, Queue<Citizen>> waitingCitizens = new Dictionary<int, Queue<Citizen>>();
 
     // 화살표 오브젝트
     [SerializeField] protected GameObject arrow;
@@ -142,7 +142,7 @@ public class Station : ObjectPoolManager
     /// </summary>
     /// <param name="busId">시민이 기다리는 버스 Id</param>
     /// <param name="citizen">큐에 등록할 시민 객체</param>
-    public void AddCitizenToStation(int busId, GameObject citizen)
+    public void AddCitizenToStation(int busId, Citizen citizen)
     {
         waitingCitizens[busId].Enqueue(citizen);
     }
