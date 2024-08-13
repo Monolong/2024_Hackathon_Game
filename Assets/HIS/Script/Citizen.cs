@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static System.Collections.Specialized.BitVector32;
 
@@ -122,10 +121,10 @@ public class Citizen : MonoBehaviour
         if (Vector3.Magnitude(StartStation.transform.position - transform.position) > Vector3.Magnitude(DestinationStation.transform.position - transform.position))
         {
             Vector3 WalkVector = DestinationStation.transform.position - transform.position;
-            transform.position += WalkVector.normalized * movespeed;
+            transform.position += WalkVector.normalized * movespeed * Time.deltaTime;
         }
         Vector3 moveVector = StartStation.transform.position - transform.position;
-        transform.position += moveVector.normalized * movespeed;
+        transform.position += moveVector.normalized * movespeed * Time.deltaTime;
     }
 
     private void AddCitizenToStation(int busId, GameObject citizen)
@@ -139,8 +138,8 @@ public class Citizen : MonoBehaviour
 
     private void GoDestinationNode()
     {
-        Vector3 WalkVector = DestinationStation.transform.position - transform.position;
-        transform.position += WalkVector.normalized * movespeed;
+        Vector3 WalkVector = DestinationNode.transform.position - transform.position;
+        transform.position += WalkVector.normalized * movespeed * Time.deltaTime;
     }
 
     /*private void boardBus(Bus bus)
