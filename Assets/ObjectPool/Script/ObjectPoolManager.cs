@@ -14,7 +14,7 @@ public class ObjectPoolManager : MonoBehaviour
         pool = new List<GameObject>();
         for (int i = 0; i < poolSize; i++)
         {
-            GameObject obj = Instantiate(prefab);
+            GameObject obj = Instantiate(prefab,transform.position,Quaternion.identity);
             pool.Add(obj);
             obj.SetActive(false);
         }
@@ -30,7 +30,7 @@ public class ObjectPoolManager : MonoBehaviour
                 return obj;
             }
         }
-        GameObject newObj = Instantiate(prefab);
+        GameObject newObj = Instantiate(prefab, transform.position, Quaternion.identity);
         newObj.SetActive(true);
         pool.Add(newObj);
         return newObj;
