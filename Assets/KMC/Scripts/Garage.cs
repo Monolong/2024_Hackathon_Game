@@ -25,8 +25,22 @@ public class Garage : Station
 
     private void OnMouseOver()
     {
-        // 좌클릭 시
-        if (Input.GetMouseButtonDown(0))
+        // 수정 중이며 우클릭 시
+        if (BusRouteInfo.Instance.isEditing == true && Input.GetMouseButtonDown(1))
+        {
+            // 다음 정류장 변경 모드로 진입한다.
+            StartCoroutine(EnterSetNextStationMode(BusRouteInfo.Instance.selectedBusId));
+        }
+
+        // 수정 중 좌클릭 시
+        if (BusRouteInfo.Instance.isEditing == true && Input.GetMouseButtonDown(0))
+        {
+            // 인벤토리를 연다.
+            UIManager2.Instance.OpenPanel();
+        }
+
+        // 수정 중이 아니고 좌클릭 시
+        if (BusRouteInfo.Instance.isEditing == false && Input.GetMouseButtonDown(0))
         {
             // 패널을 연다.
             BusRouteInfo.Instance.OpenBusRouteInfoPanel();
@@ -41,9 +55,10 @@ public class Garage : Station
 
         readyBuses[currentBusIndex] = new Queue<Bus>();
 
-        ++currentBusIndex;
-
         // 버스 운행을 시작한다.
+        StartCoroutine(StartBusSystem(currentBusIndex));
+
+        ++currentBusIndex;
     }
 
     // 정류장을 삭제한다.
@@ -61,17 +76,25 @@ public class Garage : Station
     {
         while (true)
         {
+            // 연결된 정류장이 없거나, 수정 중이거나, 버스가 없다면 작동하지 않는다.
+            while (BusRouteInfo.Instance.isEditing == true || nextStation.ContainsKey(busId) == false || readyBuses[busId].Count <= 0)
+            {
+                yield return null;
+            }
+
             // 배차 간격만큼 기다린다. (#인게임 시간으로 변경 예정)
-            yield return new WaitForSeconds(busInterval[busId]);
+            yield return new WaitForSeconds(BusRouteInfo.Instance.busRouteInfo[busId - 100]["busInterval"]);
 
             // 버스를 출발시킨다.
             // 만약 보낼 수 있는 버스가 없다면
-            if (readyBuses.Count <= 0)
+            if (readyBuses[busId].Count <= 0)
             {
                 // 건너뛴다.
+                Debug.Log("버스가 없다.");
                 continue;
             }
 
+            Debug.Log(readyBuses[busId].Count);
             // 보낼 수 있다면 출발시킨다.
             Bus bus = readyBuses[busId].Dequeue();
             // 버스를 출발시킨다.
@@ -113,6 +136,40 @@ public class Garage : Station
 
         // 성공 알림
         return true;
+    }
+
+    // 현재 노선을 저장한다.
+    public void ApplyRoute()
+    {
+        int selectedBusId = BusRouteInfo.Instance.selectedBusId;
+
+        Station lastStation = nextStation[selectedBusId];
+        while (lastStation != null && lastStation.isGarage == false)
+        {
+            if(lastStation.nextStation.ContainsKey(selectedBusId) == false)
+            {
+                lastStation = null;
+                continue;
+            }
+
+            lastStation = lastStation.nextStation[selectedBusId];
+        }
+
+        // 차고지에서 출발해 차고지로 돌아오지 못한 경우
+        if (lastStation == null)
+        {
+            // 돌아갈 수 없다.
+            return;
+        }
+
+        // 차고지에서 출발해 차고지로 돌아온 경우
+        if (lastStation != null && lastStation.isGarage == true)
+        {
+            // 성공한다.
+            BusRouteInfo.Instance.isEditing = false;
+            BusRouteInfo.Instance.CloseBusRouteInfoPanel();
+            UIManager2.Instance.TogglePanelVisibility();
+        }
     }
 
     /// <summary>

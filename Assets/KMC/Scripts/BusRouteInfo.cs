@@ -15,6 +15,10 @@ public class BusRouteInfo : ObjectPoolManager
 
     public int busPrice = 5000;
 
+    public bool isEditing = false;
+
+    public int selectedBusId;
+
     public static BusRouteInfo Instance { get; set; }
 
     private void Awake()
