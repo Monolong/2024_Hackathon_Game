@@ -9,7 +9,7 @@ public class PathLineRenderer : MonoBehaviour
 
     private Vector3[] points;
 
-    public void SetPoints(List<Node> path)
+    public void SetPoints(List<PathFinder.Node> path)
     {
         points = new Vector3[path.Count];
         for (int i = 0; i < path.Count; i++)

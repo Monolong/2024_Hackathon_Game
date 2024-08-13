@@ -7,7 +7,7 @@ public class Bus : MonoBehaviour
 {
     [SerializeField] Station nextStation;
     List<Citizen> citizens = new List<Citizen>();
-    PathFinder pathFinder;
+    PathFinder.PathFinder pathFinder;
     MapLoader mapLoader;
     int[,] map;
     Vector3Int mapOffset;
@@ -29,20 +29,20 @@ public class Bus : MonoBehaviour
         mapLoader = GameObject.Find("BusPathManager").GetComponent<MapLoader>();
         map = mapLoader.GetMap();
         mapOffset = mapLoader.GetMapOffset();
-        pathFinder = new PathFinder(map, mapOffset);
+        pathFinder = new PathFinder.PathFinder(map, mapOffset);
         StartCoroutine(MoveToStation());
     }
 
     IEnumerator MoveToStation()
     {
-        Node startNode = new Node(true);
-        Node endNode = new Node(true);
+        PathFinder.Node startNode = new PathFinder.Node(true);
+        PathFinder.Node endNode = new PathFinder.Node(true);
         startNode.SetPosition(transform.position.x, transform.position.y);
         endNode.SetPosition(nextStation.transform.position.x, nextStation.transform.position.y);
 
-        List<Node> path = pathFinder.FindPath(startNode, endNode);
+        List<PathFinder.Node> path = pathFinder.FindPath(startNode, endNode);
 
-        foreach(Node node in path)
+        foreach(PathFinder.Node node in path)
         {
             float deltaX = node.X - transform.position.x;
             float deltaY = node.Y - transform.position.y;
