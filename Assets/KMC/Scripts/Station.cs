@@ -104,6 +104,7 @@ public class Station : ObjectPoolManager
 
         // 연결된 노선을 표시한다.
         fixedArrow.DrawArrow(transform.position, selectedStation.transform.position);
+        fixedArrow.gameObject.SetActive(true);
     }
 
     /// <summary>

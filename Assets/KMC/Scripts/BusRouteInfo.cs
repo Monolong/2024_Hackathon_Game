@@ -48,7 +48,9 @@ public class BusRouteInfo : ObjectPoolManager
         });
 
         GameObject obj = GetObject();
-        obj.GetComponent<RectTransform>().parent = buttonParent;
+        RectTransform rectTransform = obj.GetComponent<RectTransform>();
+        rectTransform.parent = buttonParent;
+        rectTransform.localScale = Vector3.one;
 
         BusRouteInfoButton busRouteInfoButton = obj.GetComponent<BusRouteInfoButton>();
         busRouteInfoButton.buttonIndex = busId - 100;
