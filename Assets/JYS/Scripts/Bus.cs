@@ -118,6 +118,7 @@ public class Bus : MonoBehaviour
             {
                 Citizen citizen = nextStation.waitingCitizens[busId].Dequeue();
                 citizens.Add(citizen);
+                citizen.PaidBusPrice();
             }
         } catch { }
     }

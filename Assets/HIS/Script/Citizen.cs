@@ -12,6 +12,7 @@ public class Citizen : MonoBehaviour
     public int busId = 0;
     public Station startStation;
     public Station destinationStation;
+    public int fee = 1500;
     private int startTime = 0;
     private int arriveTime = 0;
     private int totalTime = 0;
@@ -125,5 +126,10 @@ public class Citizen : MonoBehaviour
     {
         totalTime = CalcurateTotalTime(startTime, arriveTime);
         happy = 2 - ((totalTime - boardingTime) * 3 + (boardingTime)) / (totalTime * 2);
+    }
+
+    public void PaidBusPrice()
+    {
+        ResourceManager.Instance.EarnMoney(fee);
     }
 }
