@@ -16,6 +16,7 @@ public class BusRouteInfo : ObjectPoolManager
     public int busPrice = 5000;
 
     public bool isEditing = false;
+    public bool isConnecting = false;
 
     public int selectedBusId;
 

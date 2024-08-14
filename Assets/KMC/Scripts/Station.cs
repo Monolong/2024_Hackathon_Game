@@ -35,11 +35,21 @@ public class Station : ObjectPoolManager
             // 다음 정류장 변경 모드로 진입한다.
             StartCoroutine(EnterSetNextStationMode(busId));
         }
+
+        // 수정 중 좌클릭 시, 현재 수정하는 번호와 스테이션 번호가 같다면
+        if (Input.GetMouseButtonDown(0) && BusRouteInfo.Instance.isEditing == true && busId == BusRouteInfo.Instance.selectedBusId && BusRouteInfo.Instance.isConnecting == false)
+        {
+            // 정류장을 삭제한다.
+            ReturnObject(gameObject);
+            ResourceManager.Instance.EarnMoney(1000);
+        }
     }
 
     // 정류장 변경 상태로 진입한다.
     public IEnumerator EnterSetNextStationMode(int busId)
     {
+        BusRouteInfo.Instance.isConnecting = true;
+
         // 화살표를 띄운다.
         arrow.SetActive(true);
         // 인벤토리는 닫는다.
@@ -71,6 +81,8 @@ public class Station : ObjectPoolManager
 
         // 성공했을 시 다음 정류장을 등록한다.
         SetNextStation(busId, selectedNextStation);
+
+        BusRouteInfo.Instance.isConnecting = false;
     }
 
     // 클릭된 정류장을 반환한다. 없을 시 null을 반환한다.
