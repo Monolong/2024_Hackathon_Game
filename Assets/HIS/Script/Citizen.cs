@@ -15,7 +15,7 @@ public class Citizen : MonoBehaviour
     private int startTime = 0;
     private int arriveTime = 0;
     private int totalTime = 0;
-    private float movespeed = 5f;
+    private float movespeed = 0.4f;
     private TimeManager timeManager;
 
     public bool pooFlag = false;
@@ -31,7 +31,7 @@ public class Citizen : MonoBehaviour
         if(startStation == null || destinationStation == null)
         {
             GoDestinationNode();
-            if (Vector3.Magnitude(transform.position - destinationNode.transform.position) < 20)
+            if (Vector3.Magnitude(transform.position - destinationNode.transform.position) < 1)
             {
                 arriveTime = GetTime();
                 gameObject.SetActive(false);
@@ -47,7 +47,7 @@ public class Citizen : MonoBehaviour
             {
                 GoDestinationNode();
             }
-            if (Vector3.Magnitude(transform.position - destinationNode.transform.position) < 20)
+            if (Vector3.Magnitude(transform.position - destinationNode.transform.position) < 1)
             {
                 arriveTime = GetTime();
                 gameObject.SetActive(false);
@@ -81,7 +81,7 @@ public class Citizen : MonoBehaviour
 
     private void AddCitizenToStation(int busId, Citizen citizen)
     {
-        if((Vector3.Magnitude(transform.position - startStation.transform.position)) < 20)
+        if((Vector3.Magnitude(transform.position - startStation.transform.position)) < 1)
         {
             try
             {

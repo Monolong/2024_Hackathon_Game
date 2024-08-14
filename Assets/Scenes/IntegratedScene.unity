@@ -2097,11 +2097,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7705158331685148235, guid: 7e0bdcf3deb6c3247bf92c243ef36bc8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.17
+      value: -3.688
       objectReference: {fileID: 0}
     - target: {fileID: 7705158331685148235, guid: 7e0bdcf3deb6c3247bf92c243ef36bc8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.85
+      value: 1.364
       objectReference: {fileID: 0}
     - target: {fileID: 7705158331685148235, guid: 7e0bdcf3deb6c3247bf92c243ef36bc8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3237,11 +3237,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8991230882851883154, guid: 33bd52c3fca6f5848bc701bd656aaca5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.82
+      value: 1.374
       objectReference: {fileID: 0}
     - target: {fileID: 8991230882851883154, guid: 33bd52c3fca6f5848bc701bd656aaca5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.84
+      value: 1.378
       objectReference: {fileID: 0}
     - target: {fileID: 8991230882851883154, guid: 33bd52c3fca6f5848bc701bd656aaca5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3430,9 +3430,13 @@ PrefabInstance:
       propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.data[0].destination
       value: 
       objectReference: {fileID: 2058198669}
+    - target: {fileID: 3533987595125863691, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7b57b34cdbc79a648b42ee7b723aabcc, type: 3}
     - target: {fileID: 7470687784371979406, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
       propertyPath: m_Name
-      value: HomeNode (1)
+      value: ShopNode
       objectReference: {fileID: 0}
     - target: {fileID: 7470687784371979406, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
       propertyPath: m_IsActive
@@ -3452,11 +3456,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8310775522367443570, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.15
+      value: 3.614
       objectReference: {fileID: 0}
     - target: {fileID: 8310775522367443570, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.17
+      value: 2.312
       objectReference: {fileID: 0}
     - target: {fileID: 8310775522367443570, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5544,7 +5548,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -5594,7 +5598,7 @@ SpriteRenderer:
   m_SortingLayerID: -1626238073
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 93e3e1a9cd9f42642afcd3803f4d0618, type: 3}
   m_Color: {r: 0.8828601, g: 1, b: 0.70754707, a: 1}
   m_FlipX: 0
   m_FlipY: 0
