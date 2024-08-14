@@ -15,10 +15,20 @@ public class Garage : Station
 
     public int currentBusIndex = 100;
     #endregion 변수
+    public static Garage Instance;
 
-    protected override void Awake()
+    private void Awake()
     {
         base.Awake();
+
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            enabled = false;
+        }
 
         isGarage = true;
     }
@@ -98,6 +108,10 @@ public class Garage : Station
             // 보낼 수 있다면 출발시킨다.
             Bus bus = readyBuses[busId].Dequeue();
             // 버스를 출발시킨다.
+            bus.transform.parent = transform;
+            bus.transform.localPosition = Vector3.zero;
+            bus.InitStation(busId, nextStation[busId]);
+            bus.gameObject.SetActive(true);
             StartCoroutine(bus.MoveToStation());
         }
     }
@@ -107,7 +121,8 @@ public class Garage : Station
         // 버스를 늘린다.
         BusRouteInfo.Instance.busRouteInfo[busId - 100]["busCount"] += 1;
 
-        Bus bus = GetObject().GetComponent<Bus>();
+        //Bus bus = GetObject().GetComponent<Bus>();
+        Bus bus = Instantiate(prefab, transform).GetComponent<Bus>();
 
         Station next = this;
         if (nextStation.ContainsKey(busId))
@@ -166,6 +181,16 @@ public class Garage : Station
         if (lastStation != null && lastStation.isGarage == true)
         {
             // 성공한다.
+            lastStation = this;
+            fixedArrow.gameObject.SetActive(false);
+            lastStation = nextStation[selectedBusId];
+
+            while (lastStation != null && lastStation.isGarage == false)
+            {
+                lastStation.fixedArrow.gameObject.SetActive(false);
+                lastStation = lastStation.nextStation[selectedBusId];
+            }
+
             BusRouteInfo.Instance.isEditing = false;
             BusRouteInfo.Instance.CloseBusRouteInfoPanel();
             UIManager2.Instance.TogglePanelVisibility();

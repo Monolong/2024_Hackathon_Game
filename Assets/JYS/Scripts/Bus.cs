@@ -36,6 +36,11 @@ public class Bus : MonoBehaviour
 
     public IEnumerator MoveToStation()
     {
+        mapLoader = GameObject.Find("BusPathManager").GetComponent<MapLoader>();
+        map = mapLoader.GetMap();
+        mapOffset = mapLoader.GetMapOffset();
+        pathFinder = new PathFinder.PathFinder(map, mapOffset);
+
         PathFinder.Node startNode = new PathFinder.Node(true);
         PathFinder.Node endNode = new PathFinder.Node(true);
         startNode.SetPosition(transform.position.x, transform.position.y);
@@ -78,6 +83,10 @@ public class Bus : MonoBehaviour
 
             nextStation = nextStation.GetNextStation(busId);
             StartCoroutine(MoveToStation());
+        } else
+        {
+            Garage.Instance.readyBuses[busId].Enqueue(this);
+            gameObject.SetActive(false);
         }
     }
     private void DropCitizens()
@@ -91,7 +100,7 @@ public class Bus : MonoBehaviour
             }
         }
 
-        foreach(Citizen citizen in citizens)
+        foreach(Citizen citizen in citizensToDrop)
         {
             citizens.Remove(citizen);
             citizen.transform.position = transform.position;
