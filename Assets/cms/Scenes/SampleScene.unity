@@ -1044,6 +1044,8 @@ MonoBehaviour:
   stationButton: {fileID: 1446046573}
   stationPrefab: {fileID: 758288369}
   roadTilemap: {fileID: 7681417931663371576}
+  stations: {fileID: 715382373}
+  stationPrice: 1000
 --- !u!4 &715382373
 Transform:
   m_ObjectHideFlags: 0

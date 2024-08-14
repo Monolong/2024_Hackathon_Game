@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 public class UIManager2 : MonoBehaviour
 {
     public RectTransform uiGroup; // Parent containing the UI panel and button
-    // public Button toggleButton; // Toggle button
+    public Button toggleButton; // Toggle button
     public Button stationButton; // Station button
     public GameObject stationPrefab; // Station prefab to spawn
     public Tilemap roadTilemap; // Reference to the Tilemap where the prefab should be placed
@@ -71,6 +71,14 @@ public class UIManager2 : MonoBehaviour
         EventTrigger.Entry dropEntry = new EventTrigger.Entry { eventID = EventTriggerType.EndDrag };
         dropEntry.callback.AddListener((data) => { OnDrop((PointerEventData)data); });
         trigger.triggers.Add(dropEntry);
+
+        // Add click event listener to toggle button
+        toggleButton.onClick.AddListener(OnToggleButtonClicked);
+    }
+
+    private void OnToggleButtonClicked()
+    {
+        TogglePanelVisibility();
     }
 
     public void TogglePanelVisibility()
