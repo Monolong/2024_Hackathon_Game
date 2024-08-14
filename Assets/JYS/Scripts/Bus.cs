@@ -106,6 +106,8 @@ public class Bus : MonoBehaviour
             citizen.transform.position = transform.position;
             citizen.gameObject.SetActive(true);
             citizen.pooFlag = true;
+            citizen.boardingTime = (int)Time.time - citizen.boardingTime;
+            numCitizen--;
         }
     
     }
@@ -119,6 +121,8 @@ public class Bus : MonoBehaviour
                 Citizen citizen = nextStation.waitingCitizens[busId].Dequeue();
                 citizens.Add(citizen);
                 citizen.PaidBusPrice();
+                citizen.boardingTime = (int)Time.time;
+                numCitizen++;
             }
         } catch { }
     }

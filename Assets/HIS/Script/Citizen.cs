@@ -125,7 +125,9 @@ public class Citizen : MonoBehaviour
     private void CalcurateHappy()
     {
         totalTime = CalcurateTotalTime(startTime, arriveTime);
-        happy = 2 - ((totalTime - boardingTime) * 3 + (boardingTime)) / (totalTime * 2);
+        happy = 1 - ((totalTime - boardingTime) * 3 + (boardingTime)) / (totalTime * 2);
+        ResourceManager.Instance.IncreaseSatisfaction(happy);
+        Debug.Log(happy);
     }
 
     public void PaidBusPrice()

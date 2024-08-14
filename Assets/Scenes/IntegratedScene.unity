@@ -2075,6 +2075,30 @@ PrefabInstance:
       propertyPath: poolManager
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3280053119917618399, guid: 7e0bdcf3deb6c3247bf92c243ef36bc8, type: 3}
+      propertyPath: produceCitizenProb
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3280053119917618399, guid: 7e0bdcf3deb6c3247bf92c243ef36bc8, type: 3}
+      propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3280053119917618399, guid: 7e0bdcf3deb6c3247bf92c243ef36bc8, type: 3}
+      propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.data[0].destination
+      value: 
+      objectReference: {fileID: 2058198669}
+    - target: {fileID: 3280053119917618399, guid: 7e0bdcf3deb6c3247bf92c243ef36bc8, type: 3}
+      propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.data[1].destination
+      value: 
+      objectReference: {fileID: 1006827282}
+    - target: {fileID: 3280053119917618399, guid: 7e0bdcf3deb6c3247bf92c243ef36bc8, type: 3}
+      propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.data[0].probabillity
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3280053119917618399, guid: 7e0bdcf3deb6c3247bf92c243ef36bc8, type: 3}
+      propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.data[1].probabillity
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7089691380585320439, guid: 7e0bdcf3deb6c3247bf92c243ef36bc8, type: 3}
       propertyPath: m_Name
       value: FactoryNode
@@ -3208,6 +3232,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6955162988044998766, guid: 33bd52c3fca6f5848bc701bd656aaca5, type: 3}
+      propertyPath: possibleDestinationList.Array.data[0].hourEnd
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955162988044998766, guid: 33bd52c3fca6f5848bc701bd656aaca5, type: 3}
       propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.data[0].destination
       value: 
       objectReference: {fileID: 1511451808}
@@ -3427,9 +3455,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3183361376663699633, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
+      propertyPath: produceCitizenProb
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183361376663699633, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
+      propertyPath: possibleDestinationList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183361376663699633, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
+      propertyPath: possibleDestinationList.Array.data[0].hourEnd
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183361376663699633, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
+      propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183361376663699633, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
       propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.data[0].destination
       value: 
+      objectReference: {fileID: 1511451808}
+    - target: {fileID: 3183361376663699633, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
+      propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.data[1].destination
+      value: 
       objectReference: {fileID: 2058198669}
+    - target: {fileID: 3183361376663699633, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
+      propertyPath: possibleDestinationList.Array.data[1].destProbList.Array.data[0].destination
+      value: 
+      objectReference: {fileID: 1511451808}
+    - target: {fileID: 3183361376663699633, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
+      propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.data[0].probabillity
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183361376663699633, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
+      propertyPath: possibleDestinationList.Array.data[0].destProbList.Array.data[1].probabillity
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 3533987595125863691, guid: 08d66619d30d4fc4cb64424637de54d0, type: 3}
       propertyPath: m_Sprite
       value: 
