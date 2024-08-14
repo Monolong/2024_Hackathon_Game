@@ -125,7 +125,7 @@ public class UIManager2 : MonoBehaviour
         uiGroupCanvasGroup.alpha = 0.5f;
 
         // Calculate the offset between the cursor and the button's center
-        Vector3 cursorWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 cursorWorldPosition = eventData.position;
         cursorWorldPosition.z = 0f; // Ensure z-position is 0
         dragOffset = stationButton.transform.position - cursorWorldPosition;
     }
@@ -133,9 +133,9 @@ public class UIManager2 : MonoBehaviour
     private void OnDrag(PointerEventData eventData)
     {
         // Update the button's position to follow the mouse during drag
-        Vector3 cursorWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 cursorWorldPosition = eventData.position;
         cursorWorldPosition.z = 0f; // Ensure z-position is 0
-        stationButton.transform.position = cursorWorldPosition + dragOffset;
+        stationButton.transform.position = cursorWorldPosition;
     }
 
     private void OnDrop(PointerEventData eventData)
